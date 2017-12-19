@@ -4,4 +4,7 @@ init:
 test:
 	pipenv run pytest
 
-.PHONY: init test
+server:
+	FLASK_APP=server.py pipenv run flask run
+
+.PHONY: init test server
