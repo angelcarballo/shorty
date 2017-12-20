@@ -24,7 +24,7 @@ class UrlMinifier(object):
         self.strategy = strategy
         self.event_handler = event_handler
 
-    def minify(self, long_url, requested_key=None):
+    def minify(self, long_url, user_id, requested_key=None):
         """ Generates a short url for a given long url
 
         :param long_url: Url to shorten
@@ -35,7 +35,7 @@ class UrlMinifier(object):
         key = self.strategy.minify(long_url, requested_key)
         short_url = f"{self.domain}/{key}"
 
-        event = UrlMinified(long_url, short_url)
+        event = UrlMinified(long_url, short_url, user_id)
         self.event_handler.send_event(event)
 
         return short_url

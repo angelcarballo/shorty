@@ -22,6 +22,15 @@ class Streamer(object):
             "access_count": self.restore_count(short_url)
         }
 
+    def user_stats(self, user_id):
+        user_urls = [e["short_url"] for e in self.events
+                     if e["user_id"] == user_id]
+        stats = {
+            "user_id": user_id,
+            "urls": [self.short_url_stats(url) for url in user_urls]
+        }
+        return stats
+
     def minify_info(self, short_url):
         events = self.__events_for("url_minified", short_url)
         return events[0]
@@ -33,11 +42,3 @@ class Streamer(object):
         events = [e for e in self.events
                   if e["event"] == type and e["short_url"] == short_url]
         return events
-
-# [{
-# 'long_url': 'http://www.awesomestuff.com/this/is/a/long/url',
-# 'short_url': 'AWBwFmN5',
-# 'timestamp': 1513709003.6415691,
-# 'event': 'url_minified'
-# }]
-
