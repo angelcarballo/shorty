@@ -1,5 +1,5 @@
 import pytest
-from .context import Memory
+from .context import Memory, User
 
 class TestMemory(object):
     url = "http://www.awesomestuff.com/this/is/a/long/url"
@@ -26,5 +26,8 @@ class TestMemory(object):
         assert(db.has_key("somekey") == True)
         assert(db.has_key("otherkey") == False)
 
-
-
+    def test_store_and_get_user(self):
+        db = Memory()
+        user = User("test@test.com")
+        db.store_user(user)
+        assert(db.get_user("test@test.com") == user)
