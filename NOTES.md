@@ -54,4 +54,5 @@ application, which only needs to fire and forget the right events.
    Lambda/DynamoDB/Kinesis/API Gateway, but time...
  - Implement compression strategy
  - Implement persistence with a real db
+ - Error handling for api calls
 
