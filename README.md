@@ -13,17 +13,36 @@ Shorty requires **Python3** and [ **pipenv** ](https://github.com/pypa/pipenv)
 
 ```sh
 # install dependencies
-> make init
+make init
 
 # run test server
-> make server
+make server
 
-# create a user with a secure token
-> curl -X POST http://127.0.0.1:5000/users -F email=test@test.com
-{
-  "email": "test@test.com",
-  "secure_token": "XXXXXXXX"
-}
+# tail the logs to monitor events being fired
+tail -f events.log | grep root
+
+# create a user with a secure token,
+# the response will include email and secure_token
+#  example: { "email": "test@test.com", "secure_token": "XXXXXXXX" }
+curl -X POST http://127.0.0.1:5000/users -F email=test@test.com
+
+# minify an url (authorization header generated from email/secure_token)
+curl -X POST http://127.0.0.1:5000/minify \
+  -H 'authorization: Basic XXXXXXXXXXXXX' \
+  -F url=https://en.wikipedia.org/wiki/Foobar/this/url/is/too/large \
+  -F key=mykey
+
+# restore the original url
+curl -X GET 'http://127.0.0.1:5000/restore?url=http%3A%2F%2Fshor.ty%2F%2Fmykey'
+
+# get stats for the url (authorization header generated from email/secure_token)
+curl -X GET 'http://127.0.0.1:5000/stats?url=http%3A%2F%2Fshor.ty%2F%2Fmykey' \
+  -H 'authorization: Basic XXXXXXXXXXXXX'
+
+# get full stats
+curl -X GET http://127.0.0.1:5000/stats \
+  -H 'authorization: Basic XXXXXXXXXXXXX'
+
 ```
 
 ## Test server API

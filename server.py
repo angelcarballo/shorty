@@ -9,17 +9,19 @@ from shorty.db.memory import Memory
 from shorty.user import User
 
 app = Flask(__name__)
-app.secret_key = 'this-should-not-be-here'
+app.secret_key = "this-should-not-be-here"
 auth = HTTPBasicAuth()
 
-max_key_len = 23 - len('http://shor.ty/')
+max_short_url_len = 23
+domain = "http://shor.ty/"
+max_key_len = max_short_url_len - len(domain)
 
 db = Memory()
 strategy = PersistedKey(max_len=max_key_len, db=db)
 streamer = Streamer()
 event_handler = EventHandler(streamer=streamer)
 
-url_minifier = UrlMinifier(domain="http://shor.ty",
+url_minifier = UrlMinifier(domain=domain,
                            strategy=strategy,
                            event_handler=event_handler)
 
@@ -32,11 +34,11 @@ def get_user_token(email):
     except KeyError:
         return None
 
-@app.route("/minify", methods=['POST'])
+@app.route("/minify", methods=["POST"])
 @auth.login_required
 def minify():
-    long_url = request.form.get('url')
-    key = request.form.get('key')
+    long_url = request.form.get("url")
+    key = request.form.get("key")
     if not long_url: abort(422)
 
     short_url = url_minifier.minify(long_url,
@@ -46,7 +48,7 @@ def minify():
 
 @app.route("/restore")
 def restore():
-    short_url = request.args.get('url')
+    short_url = request.args.get("url")
     if not short_url: abort(422)
 
     long_url = url_minifier.restore(short_url)
@@ -55,7 +57,7 @@ def restore():
 @app.route("/stats")
 @auth.login_required
 def stats():
-    short_url = request.args.get('url')
+    short_url = request.args.get("url")
     if short_url:
         stats = streamer.short_url_stats(short_url)
     else:

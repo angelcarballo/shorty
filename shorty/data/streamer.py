@@ -2,7 +2,7 @@ import logging
 import json
 import datetime
 
-logging.basicConfig(filename='events.log', level=logging.DEBUG)
+logging.basicConfig(filename="events.log", level=logging.DEBUG)
 
 class Streamer(object):
     def __init__(self):
@@ -29,7 +29,7 @@ class Streamer(object):
 
     def user_stats(self, user_id):
         user_urls = [e["short_url"] for e in self.events
-                     if e["user_id"] == user_id]
+                     if e.get("user_id") == user_id]
         stats = {
             "user_id": user_id,
             "urls": [self.short_url_stats(url) for url in user_urls]

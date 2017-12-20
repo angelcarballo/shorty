@@ -23,5 +23,8 @@ class UrlRestored(object):
         return "url_restored"
 
     def payload(self):
-        return { "long_url": self.long_url, "short_url": self.short_url }
+        return {
+            "long_url": self.long_url,
+            "short_url": self.short_url
+        }
 

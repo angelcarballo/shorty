@@ -14,13 +14,13 @@ class Memory(object):
         """ Stores the given key/url on memory. Raises if key present """
         if self.has_key(key):
             raise KeyError(f"key [{key}] is already in use")
-        self.urls[key] = { 'url': url, 'created_at': time.time() }
+        self.urls[key] = { "url": url, "created_at": time.time() }
 
     def get_url(self, key):
         """ Returns the url associated with the key. Raises if key missing """
         if not self.has_key(key):
             raise KeyError(f"Unknown key [{key}]")
-        return self.urls[key]['url']
+        return self.urls[key]["url"]
 
     def has_key(self, key):
         """ Checks if the key is present on the url db """

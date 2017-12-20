@@ -3,6 +3,8 @@ import time
 from shorty.data.streamer import Streamer
 
 class EventHandler(object):
+    """ Handler used to send events to a stream """
+
     def __init__(self, streamer=Streamer()):
         self.streamer = streamer
 
