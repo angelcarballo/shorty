@@ -26,7 +26,7 @@ tail -f events.log | grep root
 #  example: { "email": "test@test.com", "secure_token": "XXXXXXXX" }
 curl -X POST http://127.0.0.1:5000/users -F email=test@test.com
 
-# minify an url (authorization header generated from email/secure_token)
+# shorten a url (authorization header generated from email/secure_token)
 curl -X POST http://127.0.0.1:5000/minify \
   -H 'authorization: Basic XXXXXXXXXXXXX' \
   -F url=https://en.wikipedia.org/wiki/Foobar/this/url/is/too/large \
@@ -51,26 +51,26 @@ Basic HTTP Authentication can be provided using email and secure token.
 
 ### POST /minify
 
- - Param `url` containing the long url is required.
- - Generates a short url that can be used to restore the original long url.
- - Requires basic HTTP Authentication.
+ - Param `url` containing the long url is required
+ - Generates a short url that can be used to restore the original long url
+ - Requires basic HTTP Authentication
 
 ### GET /restore
 
- - Param `url` containing the short url is required.
- - Returns the original long url for the provided short one.
+ - Param `url` containing the short url is required
+ - Returns the original long url for the provided short one
 
 ### GET /stats
 
  - Param `url` containing the short url (optional)
- - If url is provided, return information about the given short url
- - If url is not provided, return information all urls created by the user
- - Requires basic HTTP Authentication.
+ - If url is not provided, returns statistics about all the urls created by the user
+ - If a url is provided, returns only statistics for that url
+ - Requires basic HTTP Authentication
 
 ### POST /users
 
- - Param `email` with the user's email is required.
- - Returns email and secure token for the new user.
+ - Param `email` with the user's email is required
+ - Returns email and secure token for the new user
 
 
 
