@@ -1,4 +1,8 @@
+import logging
+import json
 import datetime
+
+logging.basicConfig(filename='events.log', level=logging.DEBUG)
 
 class Streamer(object):
     def __init__(self):
@@ -11,6 +15,7 @@ class Streamer(object):
         }
         payload.update(event)
         self.events.append(payload)
+        logging.info(json.dumps(payload))
 
     def short_url_stats(self, short_url):
         minify_info = self.minify_info(short_url)
