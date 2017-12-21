@@ -26,9 +26,14 @@ tail -f events.log | grep root
 #  example: { "email": "test@test.com", "secure_token": "XXXXXXXX" }
 curl -X POST http://127.0.0.1:5000/users -F email=test@test.com
 
+# generate a basic hhtp auth header from the email and the secure token
+# using the provided script
+pipenv run python auth_header_gen.py -u test@test.com -p XXXXXXXX
+
+
 # shorten a url (authorization header generated from email/secure_token)
 curl -X POST http://127.0.0.1:5000/minify \
-  -H 'authorization: Basic XXXXXXXXXXXXX' \
+  -H 'authorization: Basic YYYYYYYY' \
   -F url=https://en.wikipedia.org/wiki/Foobar/this/url/is/too/large \
   -F key=mykey
 
@@ -37,11 +42,11 @@ curl -X GET 'http://127.0.0.1:5000/restore?url=http%3A%2F%2Fshor.ty%2F%2Fmykey'
 
 # get stats for the url (authorization header generated from email/secure_token)
 curl -X GET 'http://127.0.0.1:5000/stats?url=http%3A%2F%2Fshor.ty%2F%2Fmykey' \
-  -H 'authorization: Basic XXXXXXXXXXXXX'
+  -H 'authorization: Basic YYYYYYYY'
 
 # get full stats
 curl -X GET http://127.0.0.1:5000/stats \
-  -H 'authorization: Basic XXXXXXXXXXXXX'
+  -H 'authorization: Basic YYYYYYYY'
 
 ```
 
